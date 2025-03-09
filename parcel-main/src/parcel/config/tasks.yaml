@@ -1,0 +1,33 @@
+validate_inquiry:
+  description: "Extract and validate shipment details (rate, parcel type, weight, dimensions, addresses) from customer inquiry and PDF documents."
+  expected_output: "A structured JSON output with all shipment details."
+  agent: shipping_agent
+
+calculate_rate:
+  description: "Calculate the shipping rate and estimated delivery time using the Aramex Rate Calculator API."
+  expected_output: "Shipping cost and estimated delivery time."
+  agent: shipping_agent
+  tools:
+    - AramexRateCalculatorTool
+
+dispatch_shipment:
+  description: "Schedule shipment dispatch using the Aramex Shipping Services API and generate a tracking code."
+  expected_output: "Confirmation with a tracking code."
+  agent: shipping_agent
+  tools:
+    - AramexShippingServicesTool
+
+track_shipment:
+  description: "Track shipment progress using the Aramex Shipment Tracking API and fetch current location via Location Services API."
+  expected_output: "Real-time shipment status and location."
+  agent: tracking_agent
+  tools:
+    - AramexShipmentTrackingTool
+    - LocationServicesTool
+
+collaborate_and_train:
+  description: "Facilitate collaboration between shipping and tracking agents, aggregate feedback, and update training models."
+  expected_output: "A collaborative report and training update log."
+  agent: training_agent
+  training: true
+  collaboration: true
